@@ -1,0 +1,31 @@
+version: '2'
+services:
+  linuxmuster-relution:
+    environment:
+     - TZ=UTC
+     - DATABASE_TYPE=mysql
+     - DATABASE_URL=jdbc:mariadb://database/relution?useServerPrepStmts=true
+     - DATABASE_USER=relution
+     - DATABASE_PWD=relution
+     - HOSTNAME=http://@@hostname@@.@@domainname@@
+     - ORGA_NAME=Relution
+     - ORGA_FULLNAME=Relution
+     - ORGA_ADMIN_USERNAME=admin
+     - ORGA_ADMIN_PASSWORD=admin123
+     - ORGA_ADMIN_GIVENNAME=Relution
+     - ORGA_ADMIN_SURNAME=Administrator
+    ports:
+     - '8080:8080'
+    image: relution/relution:latest
+    container_name: linuxmuster-relution
+    links:
+     - "database"
+  database:
+    environment:
+     - MYSQL_PASSWORD=relution
+     - MYSQL_USER=relution
+     - MYSQL_DATABASE=relution
+     - MYSQL_ROOT_PASSWORD=relution
+    expose:
+     - '3306'
+    image: mysql:latest

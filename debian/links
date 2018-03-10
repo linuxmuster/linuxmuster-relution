@@ -1,0 +1,3 @@
+srv/docker/linuxmuster-relution/exec.sh usr/sbin/linuxmuster-relution-exec
+srv/docker/linuxmuster-relution/start.sh usr/sbin/linuxmuster-relution-start
+srv/docker/linuxmuster-relution/stop.sh usr/sbin/linuxmuster-relution-stop

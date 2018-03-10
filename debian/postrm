@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# postrm script for linuxmuster-relution
+# thomas@linuxmuster.net
+# 20180309
+# GPL v3
+#
+
+set -e
+
+# remove configs
+name="linuxmuster-relution"
+dockerdir="/srv/docker/$name"
+rltncfg="/srv/docker/linuxmuster-nginx-proxy/conf.d/linuxmuster-relution.conf"
+rm -f "$rltncfg"
+rm -rf "$dockerdir"

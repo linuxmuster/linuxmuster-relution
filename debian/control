@@ -1,0 +1,13 @@
+Source: linuxmuster-relution
+Section: linuxmuster
+Priority: optional
+Maintainer: Thomas Schmitt <thomas@linuxmuster.net>
+Build-Depends: debhelper (>= 5.0.0)
+Standards-Version: 5.0.0
+
+Package: linuxmuster-relution
+Architecture: all
+Depends: linuxmuster-nginx-proxy
+Description: linuxmuster.net relution docker container configuration scripts
+ This package provides linuxmuster.net configuration scripts for a relution
+ docker container.

@@ -1,0 +1,14 @@
+[Unit]
+Description=linuxmuster relution docker container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/srv/docker/linuxmuster-relution/start.sh
+ExecStop=/srv/docker/linuxmuster-relution/stop.sh
+
+[Install]
+WantedBy=multi-user.target
+Alias=relution.service
