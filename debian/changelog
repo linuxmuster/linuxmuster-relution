@@ -1,5 +1,12 @@
+linuxmuster-relution (0.2.0-0ubuntu0) lmn7-testing; urgency=low
+
+  * improved postinst script.
+  * changed certificate path.
+
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Mon, 12 Mar 2018 20:26:03 +0100
+
 linuxmuster-relution (0.1.0-0ubuntu0) lmn7-testing; urgency=low
 
   * initial release.
 
- -- Thomas Schmitt <thomas@linuxmuster.net>  Sat, 10 Mar 2018 13:24:50 +0100
+ -- Thomas Schmitt <thomas@linuxmuster.net>  Sat, 10 Mar 2018 16:45:14 +0100

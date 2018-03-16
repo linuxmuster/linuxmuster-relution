@@ -2,7 +2,7 @@
 #
 # postinst script for linuxmuster-relution
 # thomas@linuxmuster.net
-# 20180309
+# 20180312
 # GPL v3
 #
 
@@ -24,6 +24,7 @@ set -e
 
 name="linuxmuster-relution"
 ngxname="linuxmuster-nginx-proxy"
+images="relution/relution:latest"
 sharedir="/usr/share/$name"
 dockerkey="/etc/linuxmuster/ssl/docker.key.pem"
 dockerdir="/srv/docker/$name"
@@ -31,16 +32,36 @@ cmpstpl="$sharedir/docker-compose.yml"
 cmpsyml="$dockerdir/docker-compose.yml"
 rltntpl="$sharedir/$name.conf"
 rltncfg="/srv/docker/$ngxname/conf.d/$name.conf"
+interfaces="/etc/network/interfaces"
 
 case "$1" in
 
  configure)
 
+  # pull docker image
+  if ping -q -c2 google.com &> /dev/null; then
+    for i in $images; do
+      docker pull "$i"
+    done
+  fi
+
+  if [ ! -e "$dockerkey" ]; then
+    echo "SSL hostkey not found!"
+    echo "Please run linuxmuster-prepare with -c option first,"
+    echo "then run dpkg-reconfigure $name."
+    exit 0
+  fi
+
+  # get hostip and hostname
+  hostip="$(grep address "$interfaces" | head -1 | awk '{ print $2 }')"
+  fqdn="$(cat /etc/hostname)"
+  hname="$(echo "$fqdn" | awk -F. '{ print $1 }')"
+  dname="${fqdn/$hname./}"
+
   # create configuration
-  sed -e "s|@@hostname@@|$(hostname -s)|
-          s|@@domainname@@|$(dnsdomainname)|" "$cmpstpl" > "$cmpsyml"
-  sed -e "s|@@hostname@@|$(hostname -s)|
-          s|@@domainname@@|$(dnsdomainname)|" "$rltntpl" > "$rltncfg"
+  sed -e "s|@@hostname@@|$hname|
+          s|@@domainname@@|$dname|" "$cmpstpl" > "$cmpsyml"
+  sed -e "s|@@hostip@@|$hostip|" "$rltntpl" > "$rltncfg"
 
   # enable and start service
   /bin/systemctl enable "$name.service"
@@ -52,7 +73,6 @@ case "$1" in
 
  abort-upgrade|abort-remove|abort-deconfigure)
   rm -f "$rltncfg"
-  rm -rf "$dockerdir"
  ;;
 
  *)
